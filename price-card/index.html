@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Price Table Card</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif, "Merriweather", serif;
+        background-color: #e0e0e0;
+        color: #035e61;
+        display: flex;
+        justify-content: center;
+      }
+
+      /* TODO: override Tailwind's font-serif class since we can't configure it in this one-file setup */
+      .font-serif {
+        font-family: "Merriweather", serif !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      id="app"
+      class="bg-white w-[600px] m-6 rounded-2xl overflow-hidden shadow-lg"
+    >
+      <!-- Card Header -->
+      <div
+        class="px-6 py-4 bg-[#F7F7F4] flex flex-row items-center gap-4 justify-center"
+      >
+        <h2 class="text-2xl font-serif">Bare Funeral Service</h2>
+        <div class="flex items-center">
+          <div class="px-6 py-2 bg-white rounded-full">
+            <p class="font-semibold text-sm flex items-center">
+              From
+              <span class="text-3xl font-semibold px-1">{{ price }}</span>
+              inc. GST
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="flex w-full flex-col items-center p-6">
+        <!-- Description -->
+        <p class="mb-6">
+          A complete funeral service. You may have the service prior to
+          cremation with your loved one's coffin present, or without the coffin
+          present after the cremation (often referred to as a memorial service).
+        </p>
+
+        <!-- Service Type Selector -->
+        <label class="flex mb-1 items-center text-sm gap-1">
+          Service type preferred
+          <img src="circled-question.svg" class="h-3.5 w-3.5 hover:cursor-pointer" /> 
+        </label>
+
+        <div class="flex mb-6 p-2 text-nowrap bg-[#E0F2EE] rounded-full">
+          <button
+            :class="{
+              'bg-white shadow-sm': isServiceWithCoffin,
+            }"
+            class="flex gap-2 px-3 py-2 rounded-full"
+            @click="isServiceWithCoffin = true"
+          >
+            <img src="green-check.svg" v-if="isServiceWithCoffin" class="h-5 w-5" />
+            Service with coffin
+          </button>
+          <button
+            :class="{
+              'bg-white shadow-sm': !isServiceWithCoffin,
+            }"
+            class="flex gap-2 px-3 py-2 rounded-full"
+            @click="isServiceWithCoffin = false"
+          >
+            <img src="green-check.svg" v-if="!isServiceWithCoffin" class="h-5 w-5" />
+            Service without coffin
+          </button>
+        </div>
+
+        <!-- Services List -->
+        <div class="w-full mb-2">
+          <div class="mb-4">
+            <div
+              class="flex flex-row w-full justify-center items-center gap-2 text-nowrap mb-2"
+            >
+              <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+              <h3 class="font-semibold">Cremation Service:</h3>
+              <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+            </div>
+
+            <ul class="space-y-4">
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Everything in Bare Cremation.
+              </li>
+            </ul>
+          </div>
+
+          <div class="mb-2">
+            <div
+              class="flex flex-row w-full justify-center items-center gap-2 text-nowrap mb-2"
+            >
+              <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+              <h3 class="font-semibold">Bare Funeral Service:</h3>
+              <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+            </div>
+            <ul class="space-y-4">
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Bare Partner Venue
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Professional Funeral Celebrant
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Curated Slideshow and AV Equipment
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Selection of Flowers
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Stationery & Service Booklets
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Dedicated Event Manager
+              </li>
+              <li class="flex items-center gap-2">
+                <img src="yellow-check.svg" class="h-6 w-6" />
+                Bare Funeral Coffin
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Additional Services -->
+        <div class="w-full mb-6">
+          <div
+            class="flex flex-row w-full justify-center items-center gap-2 text-nowrap mb-2"
+          >
+            <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+            <h3 class="font-semibold">Bare Funeral Service:</h3>
+            <div class="h-[3px] bg-[#F7F7F4] w-full"></div>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <img src="dollar.svg" v-if="isServiceWithCoffin" class="h-6 w-6" />
+                <img src="not-available.svg" v-if="!isServiceWithCoffin" class="h-6 w-6" /> 
+                Viewing
+                <img src="circled-question.svg" class="h-3.5 w-3.5 hover:cursor-pointer" /> 
+              </div>
+              <span class="text-gray-500">$400</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <img src="dollar.svg" v-if="isServiceWithCoffin" class="h-6 w-6" />
+                <img src="not-available.svg" v-if="!isServiceWithCoffin" class="h-6 w-6" /> 
+                Premium Coffin
+                <img src="circled-question.svg" class="h-3.5 w-3.5 hover:cursor-pointer" /> 
+              </div>
+              <span class="text-gray-500">$100 - $4000</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <img src="dollar.svg" class="h-6 w-6" />
+                Live Streaming
+                <img src="circled-question.svg" class="h-3.5 w-3.5 hover:cursor-pointer" /> 
+              </div>
+              <span class="text-gray-500">P.O.A</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <img src="dollar.svg" class="h-6 w-6" />
+                Catering
+                <img src="circled-question.svg" class="h-3.5 w-3.5 hover:cursor-pointer" /> 
+              </div>
+              <span class="text-gray-500">P.O.A</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Footer -->
+
+        <div class="flex w-full justify-center items-center gap-4">
+          <button
+            onclick="window.open('https://example.com/learn-more', '_blank')"
+            class="flex justify-center items-center font-semibold bg-[#035e61] text-white px-6 py-2 rounded-full hover:bg-teal-600 gap-4"
+          >
+            Learn More
+            <img src="arrow-right.svg" class="h-5 w-5" />
+          </button>
+          <button
+            class="flex items-center border font-semibold border-[#035e61] text-[#035e61] px-4 py-2 rounded-full gap-2 hover:bg-teal-50"
+          >
+            <img src="phone.svg" class="h-4 w-4" />
+            </svg>
+            1800 071 176
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          isServiceWithCoffin: true,
+        },
+        computed: {
+          price() {
+            return this.isServiceWithCoffin ? '$5,899' : '$3,899';
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
